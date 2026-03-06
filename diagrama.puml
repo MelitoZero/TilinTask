@@ -1,0 +1,162 @@
+@startuml
+skinparam ClassAttributeIconSize 0
+top to bottom direction
+
+' ==========================================
+' MODELOS (Entidades del ORM)
+' ==========================================
+class Usuario <<Model>> {
+    + id : UUID
+    + email : String
+    + name : String
+    - passwd : String
+}
+
+class Lista <<Model>> {
+    + id : Integer
+    + name : String
+    + Descrip : String
+    + id_User : UUID
+}
+
+class Tarea <<Model>> {
+    + id : UUID
+    + titulo : String
+    + Descrip : String
+    + id_Lista : Integer
+    + fecha_inicio : Date
+    + fecha_limite : Date
+    + estado : String
+    + id_user : UUID
+}
+
+class Reconocimiento <<Model>> {
+    + id : Integer
+    + tipo : String
+    + id_usuario : UUID
+}
+
+class Recordatorio <<Model>> {
+    + id : Integer
+    + id_Tarea : UUID
+    + fecha_alerta : Date
+    + fecha_alerta2 : Date
+    + fecha_alerta3 : Date
+}
+
+' ==========================================
+' DAOs
+' ==========================================
+class UsuarioDAO <<DAO>> {
+    + crear(u: Usuario) : Usuario
+    + obtenerPorId(id: UUID) : Usuario
+    + obtenerPorEmail(email: String) : Usuario
+    + actualizar(u: Usuario) : boolean
+    + eliminar(id: UUID) : boolean
+}
+
+class ListaDAO <<DAO>> {
+    + crear(l: Lista) : Lista
+    + obtenerPorId(id: Integer) : Lista
+    + obtenerPorUsuario(id_User: UUID) : List<Lista>
+    + actualizar(l: Lista) : boolean
+    + eliminar(id: Integer) : boolean
+}
+
+class TareaDAO <<DAO>> {
+    + crear(t: Tarea) : Tarea
+    + obtenerPorId(id: UUID) : Tarea
+    + obtenerPorLista(id_Lista: Integer) : List<Tarea>
+    + obtenerPorUsuario(id_user: UUID) : List<Tarea>
+    + actualizar(t: Tarea) : boolean
+    + eliminar(id: UUID) : boolean
+}
+
+class ReconocimientoDAO <<DAO>> {
+    + crear(r: Reconocimiento) : Reconocimiento
+    + obtenerPorId(id: Integer) : Reconocimiento
+    + obtenerPorUsuario(id_usuario: UUID) : List<Reconocimiento>
+    + eliminar(id: Integer) : boolean
+}
+
+class RecordatorioDAO <<DAO>> {
+    + crear(r: Recordatorio) : Recordatorio
+    + obtenerPorId(id: Integer) : Recordatorio
+    + obtenerPorTarea(id_Tarea: UUID) : List<Recordatorio>
+    + actualizar(r: Recordatorio) : boolean
+    + eliminar(id: Integer) : boolean
+}
+
+' ==========================================
+' CONTROLADORES
+' ==========================================
+class UsuarioController <<Controller>> {
+    - usuarioDAO : UsuarioDAO
+    + login(req: Request) : Response
+    + logout(req: Request) : Response
+    + crearUsuario(req: Request) : Response
+    + obtenerUsuario(req: Request) : Response
+    + actualizarUsuario(req: Request) : Response
+    + eliminarUsuario(req: Request) : Response
+}
+
+class ListaController <<Controller>> {
+    - listaDAO : ListaDAO
+    + crearLista(req: Request) : Response
+    + obtenerLista(req: Request) : Response
+    + listarPorUsuario(req: Request) : Response
+    + actualizarLista(req: Request) : Response
+    + eliminarLista(req: Request) : Response
+}
+
+class TareaController <<Controller>> {
+    - tareaDAO : TareaDAO
+    + crearTarea(req: Request) : Response
+    + obtenerTarea(req: Request) : Response
+    + listarPorLista(req: Request) : Response
+    + actualizarTarea(req: Request) : Response
+    + eliminarTarea(req: Request) : Response
+}
+
+class ReconocimientoController <<Controller>> {
+    - reconocimientoDAO : ReconocimientoDAO
+    + crearReconocimiento(req: Request) : Response
+    + obtenerReconocimiento(req: Request) : Response
+    + listarPorUsuario(req: Request) : Response
+    + eliminarReconocimiento(req: Request) : Response
+}
+
+class RecordatorioController <<Controller>> {
+    - recordatorioDAO : RecordatorioDAO
+    + crearRecordatorio(req: Request) : Response
+    + obtenerRecordatorio(req: Request) : Response
+    + listarPorTarea(req: Request) : Response
+    + actualizarRecordatorio(req: Request) : Response
+    + eliminarRecordatorio(req: Request) : Response
+}
+
+' ==========================================
+' RELACIONES Y DEPENDENCIAS
+' ==========================================
+
+' Dependencias de Inyección (El Controlador tiene una instancia del DAO)
+UsuarioController --> UsuarioDAO : <<inyecta>>
+ListaController --> ListaDAO : <<inyecta>>
+TareaController --> TareaDAO : <<inyecta>>
+ReconocimientoController --> ReconocimientoDAO : <<inyecta>>
+RecordatorioController --> RecordatorioDAO : <<inyecta>>
+
+' Dependencias de Uso (El DAO retorna el Modelo pero no lo guarda como variable)
+UsuarioDAO ..> Usuario : <<retorna / mapea>>
+ListaDAO ..> Lista : <<retorna / mapea>>
+TareaDAO ..> Tarea : <<retorna / mapea>>
+ReconocimientoDAO ..> Reconocimiento : <<retorna / mapea>>
+RecordatorioDAO ..> Recordatorio : <<retorna / mapea>>
+
+' Relaciones del Dominio (Llaves Foráneas de la BD)
+Usuario "1" -- "0..*" Lista : <<crea>> id_User
+Usuario "1" -- "0..*" Tarea : <<asigna>> id_user
+Usuario "1" -- "0..*" Reconocimiento : <<obtiene>> id_usuario
+Lista "1" -- "0..*" Tarea : <<agrupa>> id_Lista
+Tarea "1" -- "0..*" Recordatorio : <<programa>> id_Tarea
+@enduml

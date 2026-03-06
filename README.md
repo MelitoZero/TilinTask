@@ -1,43 +1,50 @@
-# Astro Starter Kit: Minimal
+# TILIN Task
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Repositorio de Tilin Task, el cuak es un sistema de gestion de tareas web. Este proyecto esta encargado por: Uziel Melo Flores, Jose Raul Rojo Ontiveros, Jesus Alenjando.
 
-## 🚀 Project Structure
+Tilin task permitira a los usuarios ingresar, visualizar y gestionar las tareas que quieran, ademas de poder tener festion de fechas y recordatorios. Todo esto con un sistema de recompensas
 
-Inside of your Astro project, you'll see the following folders and files:
+> **Tilin task** Lo más fregon que ha parido icson.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Tecnologias y herramientas
+- Javascript
+- css
+- Astro
+- BD: PostgreSQL
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+### Pasos para ejecutar el proyecto:
+Para poder ejecutar y compilar el codigo tienes que tener  los siguientes requisitos:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+**Requisitos**
+-Tener Node.js
+-Tener pnpm
+-Tener Astro
+-Tener git
+-Tener PostgreSQL
 
-Any static assets, like images, can be placed in the `public/` directory.
+#### Pasos de ejecución y compilación
+1. Clonar el repositorio: Abre una terminal y clona este repositorio con el siguiente comando.
+````
+git clone https://github.com/MelitoZero/TilinTask.git 
+cd TilinTask
+ ````
 
-## 🧞 Commands
+2. Ejecutar la config una vez dentro del proyecto:
+````
+pnpm install
+````
 
-All commands are run from the root of the project, from a terminal:
+3. Una vez terminado la config. ahora si puede ejecutarlo con:
+````
+pnpm dev
+````
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+##### Para la compilacion
+Una vez ya tengas listo todo puedes compilar el proyecto con:
+````
+pnpm build
+````
 
-## 👀 Want to learn more?
+ 
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
