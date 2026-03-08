@@ -1,0 +1,315 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.Usuarios": {
+      "name": "Usuarios",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "passwd": {
+          "name": "passwd",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "user_email_unico": {
+          "columns": [
+            "email"
+          ],
+          "nullsNotDistinct": false,
+          "name": "user_email_unico"
+        }
+      },
+      "checkConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false
+    },
+    "public.Lista": {
+      "name": "Lista",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Descrip": {
+          "name": "Descrip",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_User": {
+          "name": "id_User",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "usuario_fk": {
+          "name": "usuario_fk",
+          "tableFrom": "Lista",
+          "tableTo": "Usuarios",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "id_User"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false
+    },
+    "public.Tarea": {
+      "name": "Tarea",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "titulo": {
+          "name": "titulo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Descrip": {
+          "name": "Descrip",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_Lista": {
+          "name": "id_Lista",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fecha_inicio": {
+          "name": "fecha_inicio",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fecha_limite": {
+          "name": "fecha_limite",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "estado": {
+          "name": "estado",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_user": {
+          "name": "id_user",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "usuario_fk": {
+          "name": "usuario_fk",
+          "tableFrom": "Tarea",
+          "tableTo": "Usuarios",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "id_user"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "lista_fk": {
+          "name": "lista_fk",
+          "tableFrom": "Tarea",
+          "tableTo": "Lista",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "id_Lista"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false
+    },
+    "public.Reconocimiento": {
+      "name": "Reconocimiento",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tipo": {
+          "name": "tipo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_usuario": {
+          "name": "id_usuario",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "usuario_fk": {
+          "name": "usuario_fk",
+          "tableFrom": "Reconocimiento",
+          "tableTo": "Usuarios",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "id_usuario"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false
+    },
+    "public.Recordatorio": {
+      "name": "Recordatorio",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_Tarea": {
+          "name": "id_Tarea",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fecha_alerta": {
+          "name": "fecha_alerta",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fecha_alerta2": {
+          "name": "fecha_alerta2",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fecha_alerta3": {
+          "name": "fecha_alerta3",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tarea_fk": {
+          "name": "tarea_fk",
+          "tableFrom": "Recordatorio",
+          "tableTo": "Tarea",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "id_Tarea"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "tables": {}
+  }
+}
