@@ -1,19 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { usuarios, lista, tarea, reconocimiento, recordatorio } from "./schema";
-
-export const listaRelations = relations(lista, ({one, many}) => ({
-	usuario: one(usuarios, {
-		fields: [lista.idUser],
-		references: [usuarios.id]
-	}),
-	tareas: many(tarea),
-}));
-
-export const usuariosRelations = relations(usuarios, ({many}) => ({
-	listas: many(lista),
-	tareas: many(tarea),
-	reconocimientos: many(reconocimiento),
-}));
+import { usuarios, tarea, lista, reconocimiento, recordatorio } from "./schema";
 
 export const tareaRelations = relations(tarea, ({one, many}) => ({
 	usuario: one(usuarios, {
@@ -25,6 +11,20 @@ export const tareaRelations = relations(tarea, ({one, many}) => ({
 		references: [lista.id]
 	}),
 	recordatorios: many(recordatorio),
+}));
+
+export const usuariosRelations = relations(usuarios, ({many}) => ({
+	tareas: many(tarea),
+	listas: many(lista),
+	reconocimientos: many(reconocimiento),
+}));
+
+export const listaRelations = relations(lista, ({one, many}) => ({
+	tareas: many(tarea),
+	usuario: one(usuarios, {
+		fields: [lista.idUser],
+		references: [usuarios.id]
+	}),
 }));
 
 export const reconocimientoRelations = relations(reconocimiento, ({one}) => ({
