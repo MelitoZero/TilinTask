@@ -5,15 +5,19 @@ import bcrypt from 'bcryptjs';
 const usuarioDAO = new UsuarioDAO();
 
 // Ruta para obtener un usuario por su ID.
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params, locals }) => {
 
     try {
-        //Se obtiene el id del usuario desde la url.
+        //Se obtiene el id del usuario desde la url y de locals
         const idBuscado = String(params.id);
-        //Si no se proporciona un id, se devuelve un error.
+        const idLogueado = locals.usuario?.id;
+        //Si no se proporciona un id, se devuelve un error. O si no se proporciona el id correcto
         if(!idBuscado) {
             return new Response(JSON.stringify({ error: 'ID de usuario no proporcionado' }),
                 { status: 400, headers: { 'Content-Type': 'application/json' } });
+        }else if(idBuscado !== idLogueado) {
+            return new Response(JSON.stringify({ error: 'No tienes permiso para ver este usuario.' }),
+                { status: 403, headers: { 'Content-Type': 'application/json' } });
         }
         //Se busca el usuario por su id.
         const usuario = await usuarioDAO.obtenerPorId(idBuscado);
@@ -39,22 +43,26 @@ export const GET: APIRoute = async ({ params }) => {
 };
 
 //Ruta para actualizar un usuario por su ID.
-export const PATCH: APIRoute = async ({ params, request }) => {
+export const PATCH: APIRoute = async ({ params, request, locals }) => {
 
     try {
-        //Se obtiene el id del usuario desde la url.
+        //Se obtiene el id del usuario desde la url y de locals
         const idBuscado = String(params.id);
-        //Si no se proporciona un id, se devuelve un error.
+        const idLogueado = locals.usuario?.id;
+        //Si no se proporciona un id, se devuelve un error. O si no se proporciona el id correcto
         if(!idBuscado) {
-            return new Response(JSON.stringify({ error: 'ID de usuario no proporcionado' }),
+            return new Response(JSON.stringify({ error: 'ID de usuario no proporcionado.' }),
                 { status: 400 });
+        }else if(idBuscado !== idLogueado) {
+            return new Response(JSON.stringify({ error: 'No tienes permiso para actualizar este usuario.' }),
+                { status: 403 });
         }
         //Se obtienen los datos del cuerpo de la solicitud.
         const body = await request.json();
         const datosActualizados: any = {};
         //Se validan y actualizan los campos proporcionados.
         if(body.name) {
-            datosActualizados.name = body.name.trim();
+            datosActualizados.name = body.name.trim().replace(/[<>]/g, ' ');
         }
         //Si se proporciona una nueva contraseña, se valida y se hashea antes de actualizar.
         if(body.passwd) {
@@ -83,16 +91,20 @@ export const PATCH: APIRoute = async ({ params, request }) => {
 };
 
 //Ruta para eliminar un usuario por su ID.
-export const DELETE: APIRoute = async ({ params }) => {
+export const DELETE: APIRoute = async ({ params, locals }) => {
 
     try {
-        //Se obtiene el id del usuario desde la url.
+        //Se obtiene el id del usuario desde la url y de locals
         const idBuscado = String(params.id);
-        //Si no se proporciona un id, se devuelve un error.
+        const idLogueado = locals.usuario?.id;
+        //Si no se proporciona un id, se devuelve un error. O si no se proporciona un id correcto
         if(!idBuscado) {
             return new Response(JSON.stringify({ error: 'ID de usuario no proporcionado' }),
             { status: 400 });
-        }
+        }else if(idBuscado !== idLogueado) {
+            return new Response(JSON.stringify({ error: 'No tienes permiso para eliminar este usuario.' }),
+                { status: 403 });
+        } 
         //Se llama al DAO para eliminar el usuario.
         await usuarioDAO.eliminar(idBuscado);
         return new Response(JSON.stringify({ mensaje: 'Usuario eliminado exitosamente.' }),

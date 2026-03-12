@@ -17,7 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
         }
         //Valida que el email tenga un formato correcto y que la contraseña tenga al menos 8 caracteres.
         const emailListo = email.trim().toLowerCase();
-        const nameListo = name.trim();
+        const nameListo = name.trim().replace(/[<>]/g, ' ');
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;//Expresión regular para validar el formato del correo electrónico
         if (!emailRegex.test(emailListo)) {
             return new Response(JSON.stringify({ error: 'Correo electrónico no válido.'}),
