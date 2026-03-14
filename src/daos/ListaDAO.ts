@@ -1,11 +1,12 @@
 import { eq, and} from 'drizzle-orm';
 import { db } from '../db/index';
 import { lista } from '../db/schema';
+import type { ILista } from '../interfaces/ILista';
 
 export type InsertLista = typeof lista.$inferInsert;
 export type ActualizarLista = Partial<InsertLista>;
 
-export class ListaDAO {
+export class ListaDAO implements ILista {
 
     async crearLista(datos: InsertLista) {
         const resultado = await db.insert(lista).values(datos).returning();

@@ -1,11 +1,12 @@
 import { eq, and } from 'drizzle-orm';
 import { db } from '../db/index';
 import { reconocimiento } from '../db/schema';
+import type { IReconocimiento } from '../interfaces/IReconocimiento';
 
 export type InsertarReconocimiento = typeof reconocimiento.$inferInsert;
 export type ActualizarReconocimiento = Partial<InsertarReconocimiento>;
 
-export class ReconocimientoDAO{
+export class ReconocimientoDAO implements IReconocimiento{
 
     async crear(datos: InsertarReconocimiento){
         const resultado = await db.insert(reconocimiento).values(datos).returning();

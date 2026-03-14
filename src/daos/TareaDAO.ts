@@ -1,11 +1,12 @@
 import { eq, and } from 'drizzle-orm';
 import { db } from '../db/index';
 import { tarea } from '../db/schema';
+import type { ITarea } from '../interfaces/ITarea';
 
 export type InsertTarea = typeof tarea.$inferInsert;
 export type ActualizarTarea = Partial<InsertTarea>;
 
-export class TareaDAO {
+export class TareaDAO implements ITarea {
 
     async crearTarea(datos: InsertTarea) {
         const resultado = await db.insert(tarea).values(datos).returning();

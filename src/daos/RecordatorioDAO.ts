@@ -1,11 +1,12 @@
 import {eq, and } from 'drizzle-orm';
 import { db } from '../db/index';
 import { recordatorio } from '../db/schema';
+import type { IRecordatorio } from '../interfaces/IRecordatorio';
 
 export type InsertRecordatorio = typeof recordatorio.$inferInsert;
 export type ActualizarRecordatorio = Partial<InsertRecordatorio>;
 
-export class RecordatorioDAO {
+export class RecordatorioDAO implements IRecordatorio {
 
     async crearRecordatorio(datos: InsertRecordatorio) {
         const resultado = await db.insert(recordatorio).values(datos).returning();
