@@ -30,7 +30,7 @@ export class ListaController {
         if(!titulo) return Responder.badRequest('El título es obligatorio.');
         //Limpieza de los datos para evitar fallos
         const tituloLimpio = titulo.trim().replace(/[<>]/g, ' ');
-        const descripcionLimpia = descripcion ? descripcion.trim().replace(/[<>]/g, ' ') : null;
+        const descripcionLimpia = descripcion ? descripcion.trim().replace(/[<>]/g, ' ') : '';
         //Se crea la nueva lista con el id del usuario autenticado
         const nuevaLista = await this.listaDAO.crearLista({
             name: tituloLimpio, descrip: descripcionLimpia,
@@ -78,7 +78,7 @@ export class ListaController {
             datosActualizados.name = body.titulo.trim().replace(/[<>]/g, ' ');
         }
         if(body.descripcion !== undefined) {
-            datosActualizados.descrip = body.descripcion ? body.descripcion.trim().replace(/[<>]/g, ' ') : null;
+            datosActualizados.descrip = body.descripcion ? body.descripcion.trim().replace(/[<>]/g, ' ') : '';
         }
         //Se verifica que se haya mandado datos
         if(Object.keys(datosActualizados).length === 0) {

@@ -56,7 +56,7 @@ export class TareaController {
         if(!body.titulo) return Responder.badRequest('El título es obligatorio.');
         //Se crea la nueva tarea
         const nuevaTarea = await this.tareaDAO.crearTarea({
-            titulo: body.titulo.trim().replace(/[<>]/g, ' '), descrip: body.descripcion ? body.descripcion.trim().replace(/[<>]/g, ' ') : null,
+            titulo: body.titulo.trim().replace(/[<>]/g, ' '), descrip: body.descripcion ? body.descripcion.trim().replace(/[<>]/g, ' ') : '',
             idLista: idLista, fechaInicio: body.fechaInicio, fechaLimite: body.fechaLimite, estado: body.estado, idUser: idUsuario });
         return Responder.creado(nuevaTarea, 'Tarea creada exitosamente.');
     };
@@ -78,7 +78,7 @@ export class TareaController {
         const datosActualizados: any = {};
         //Se limpian los datos
         if(body.titulo) datosActualizados.titulo = body.titulo.trim().replace(/[<>]/g, ' ');
-        if(body.descrip !== undefined) datosActualizados.descrip = body.descripcion ? body.descripcion.trim().replace(/[<>]/g, ' ') : null;
+        if(body.descrip !== undefined) datosActualizados.descrip = body.descripcion ? body.descripcion.trim().replace(/[<>]/g, ' ') : '';
         if(body.estado) datosActualizados.estado = body.estado.trim().replace(/[<>]/g, ' ');
         //En caso de meter una validación booleana de tarea completa implementar abajo
         //Se verifica que haya datos a actualizar

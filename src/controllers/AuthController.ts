@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 //Se obtiene la clave secreta para el jwt.
-const SECRET_KEY = import.meta.env.SECRET_KEY;
+const SECRET_KEY = import.meta.env.JWT_SECRET;
 
 export class AuthController {
     //Constructor que inicia con dao ya inyectado.

@@ -12,4 +12,5 @@ pnpm-debug.log*
 # environment variables
 .env
 .vscode/
-
+#test
+tests/
